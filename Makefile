@@ -244,6 +244,10 @@ ifeq ($(HOSTARCH),$(ARCH))
 CROSS_COMPILE ?=
 endif
 
+ifeq ($ARM),$(ARCH))
+CROSS_COMPILE ?=arm-linux-gnueabihf-
+endif
+
 KCONFIG_CONFIG	?= .config
 export KCONFIG_CONFIG
 
@@ -913,8 +917,8 @@ cmd_pad_cat = $(cmd_objcopy) && $(append) || rm -f $@
 
 cfg: u-boot.cfg
 
-quiet_cmd_cfgcheck = CFGCHK  $2
-cmd_cfgcheck = $(srctree)/scripts/check-config.sh $2 \
+#quiet_cmd_cfgcheck = CFGCHK  $2
+#cmd_cfgcheck = $(srctree)/scripts/check-config.sh $2 \
 		$(srctree)/scripts/config_whitelist.txt $(srctree)
 
 all:		$(ALL-y)

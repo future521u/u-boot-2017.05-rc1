@@ -191,7 +191,9 @@ void copy_uboot_to_ram(void)
 	unsigned int bootmode = BOOT_MODE_OM;
 
 	u32 (*copy_bl2)(u32 offset, u32 nblock, u32 dst) = NULL;
+#ifndef CONFIG_TARGET_ITOP4412
 	u32 offset = 0, size = 0;
+#endif
 #ifdef CONFIG_SPI_BOOTING
 	struct spl_machine_param *param = spl_get_machine_params();
 #endif
@@ -227,8 +229,10 @@ void copy_uboot_to_ram(void)
 		break;
 #endif
 	case BOOT_MODE_SD:
+#ifndef CONFIG_TARGET_ITOP4412
 		offset = BL2_START_OFFSET;
 		size = BL2_SIZE_BLOC_COUNT;
+#endif
 		copy_bl2 = get_irom_func(MMC_INDEX);
 		break;
 #ifdef CONFIG_SUPPORT_EMMC_BOOT
@@ -325,8 +329,7 @@ void board_init_f(unsigned long bootflag)
 	if (do_lowlevel_init())
 		power_exit_wakeup();
 
-   printascii("\r\nU-Boot SPL " PLAIN_VERSION " (" U_BOOT_DATE " - " \
-               U_BOOT_TIME ")\r\n");
+   //printascii("\r\nU-Boot SPL " PLAIN_VERSION " (" U_BOOT_DATE " - "U_BOOT_TIME ")\r\n");
 	copy_uboot_to_ram();
 
 	/* Jump to U-Boot image */
